@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  web:
+    build:
+      context: .
+    image: its-mygo-pw
+    environment:
+      - FLAG=AIS3{REDACTED}
+    ports:
+      - "51414:51414"
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G

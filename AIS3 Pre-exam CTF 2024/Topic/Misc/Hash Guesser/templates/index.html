@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Guesser</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocas/4.2.5/tocas.min.css" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocas/4.2.5/tocas.min.js" crossorigin="anonymous"></script>
+    <script src="static/snackbar.js"></script>
+    <link rel="stylesheet" href="static/snackbar.css">
+    <style>
+        .ts-icon.is-positive {
+            color: var(--ts-static-positive-400);
+        }
+
+        #icon[data-mode="question"] :not(.is-question),
+        #icon[data-mode="correct"] :not(.is-positive),
+        #icon[data-mode="wrong"] :not(.is-negative) {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="ts-center">
+        <div class="ts-segment">
+            <form action="/guess" method="post" enctype="multipart/form-data" id="form" name="form">
+            <div class="ts-wrap is-vertical is-center-aligned">
+                <div class="ts-header is-center-aligned">
+                    <h1>Hash Guesser</h1>
+                </div>
+                <div data-mode="question" id="icon">
+                    <span class="ts-icon is-question is-heading is-circle-question-icon"></span>
+                    <span class="ts-icon is-negative is-heading is-circle-xmark-icon"></span>
+                    <span class="ts-icon is-positive is-heading is-circle-check-icon"></span>
+                </div>
+                <div class="ts-row">
+                    {{ turnstile }}
+                </div>
+                <div class="ts-row">
+                    <div class="ts-file">
+                        <input type="file" name="file" id="file" />
+                    </div>
+                    <button class="ts-button">Send</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="ts-modal" data-name="flag-modal">
+        <div class="content">
+            <div class="ts-content is-center-aligned is-vertically-padded">
+            <div class="ts-header is-icon">
+                <span class="ts-icon is-flag-icon"></span>
+                Flag Captured!
+            </div>
+            <div class="ts-content is-tertiary"></div>
+            </div>
+            <div class="ts-divider"></div>
+            <div class="ts-content is-center-aligned">
+                <button class="ts-button" data-toggle="flag-modal:is-visible">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="ts-snackbar is-fading-up">
+        <div class="content"></div>
+    </div>
+
+    <script src="static/util.js"></script>
+    <script>
+        const $icon = dqs("#icon");
+        const $modal = dqs('.ts-modal[data-name="flag-modal"]');
+
+        async function submit() {
+            const formData = new FormData(form);
+
+            try {
+                const res = await fetch("/guess", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (res.status === 413) {
+                    throw "File too large";
+                }
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    $icon.dataset.mode = "correct";
+                    $modal.dqs(".ts-content.is-tertiary").textContent = data.flag;
+                    $modal.classList.toggle("is-visible", true);
+                } else if (res.status === 400) {
+                    $icon.dataset.mode = "wrong";
+                    ts('.ts-snackbar').snackbar({ 
+                        content: data.error
+                    });
+                } else {
+                    throw data.error;
+                }
+            } catch (err) {
+                $icon.dataset.mode = "question";
+                ts('.ts-snackbar').snackbar({ 
+                    content: err
+                });
+            }
+
+            // reset captcha
+            turnstile.reset();
+        }
+
+        form.on("submit", ev => {
+            ev.preventDefault();
+            submit();
+        });
+    </script>
+</body>
+</html>

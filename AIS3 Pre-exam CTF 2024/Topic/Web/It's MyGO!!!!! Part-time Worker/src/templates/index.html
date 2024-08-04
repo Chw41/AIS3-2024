@@ -1,0 +1,66 @@
+{% include 'base.html' %}
+<div id="content-title">現在時刻</div>
+<div id="time" style="font-size: 80px;color: #767676;"></div>
+<div>
+    對不起，我不論如何都想當面向你道歉。
+    我們本來真的沒有要演奏春日影的，當天原定只有演奏一首歌，我自己也不想演奏。
+</div>
+<div>
+    可是演奏都已經開始了，我實在沒有辦法。
+    對不起，我們一定傷害到妳了吧，妳會無法原諒我們也是當然的。
+    因為我們擅自演奏了屬於我們的重要歌曲。
+</div>
+<div>
+    真的很對不起
+    可是，春日影是CRYCHIC重要的...
+    為什麼？妳為什麼要我忘記呢？
+    我們以前感情明明那麼好，大家每天都快樂地相處在一起。
+    現在卻各奔東西，太奇怪了吧。
+</div>
+<div>
+    樂團是命運共同體，當初這麼說的人不是小祥嗎。
+    你誤會了
+    為什麼...
+    求求你，我想讓CRYCHIC重新開始。
+</div>
+<div>
+    我想找回屬於大家的那段快樂時光，小燈和立希也都是這麼希望的。
+    我也打算找小睦和小祥一起回到樂團。
+    為什麼？只有我這麼想嗎？
+    </div>
+    <div>
+    可是，當初組成CRYCHIC的人就是小祥啊。
+    它沒有結束😭
+    我一直為了CRYCHIC在努力著😭
+
+    等一下 不要走😭
+    不是這樣的😭
+</div>
+<div>
+    我是真的很重視大家，很喜歡大家😭
+    不要 求求妳😭
+    要是沒有小祥你們的話，我就...😭
+</div>
+    要我怎麼做妳們才肯回來？😭
+    只要是我能做的，我什麼都願意做😭
+    可是，我真的...😭
+</div>
+<script>
+    function startTime() {
+      const today = new Date();
+      let h = today.getHours();
+      let m = today.getMinutes();
+      let s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('time').innerHTML =  h + ":" + m + ":" + s;
+      setTimeout(startTime, 1000);
+    }
+    
+    function checkTime(i) {
+      if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+      return i;
+    }
+    startTime();
+</script>
+{% include 'end.html' %}

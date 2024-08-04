@@ -1,0 +1,106 @@
+<!OCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evil Calculator</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f7f7;
+    text-align: center;
+    padding: 50px;
+  }
+  .calculator {
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    padding: 20px;
+  }
+  .calculator-screen {
+    width: 100%;
+    margin-bottom: 10px;
+    height: 50px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 1.2em;
+    text-align: right;
+  }
+  .button {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: inline-block;
+  }
+  .button:hover {
+    background-color: #e0e0e0;
+  }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+  <input type="text" class="calculator-screen" id="expression" placeholder="0" disabled>
+  
+  <div id="calculator-keys">
+    <button class="button" onclick="appendToExpression('1')">1</button>
+    <button class="button" onclick="appendToExpression('2')">2</button>
+    <button class="button" onclick="appendToExpression('3')">3</button>
+    <button class="button" onclick="appendToExpression('+')">+</button><br>
+    <button class="button" onclick="appendToExpression('4')">4</button>
+    <button class="button" onclick="appendToExpression('5')">5</button>
+    <button class="button" onclick="appendToExpression('6')">6</button>
+    <button class="button" onclick="appendToExpression('-')">-</button><br>
+    <button class="button" onclick="appendToExpression('7')">7</button>
+    <button class="button" onclick="appendToExpression('8')">8</button>
+    <button class="button" onclick="appendToExpression('9')">9</button>
+    <button class="button" onclick="appendToExpression('*')">*</button><br>
+    <button class="button" onclick="appendToExpression('0')">0</button>
+    <button class="button" onclick="appendToExpression('.')">.</button>
+    <button class="button" onclick="clearExpression()">C</button>
+    <button class="button" onclick="appendToExpression('/')">/</button><br>
+    <button class="button" onclick="calculate()" style="width: 84%;">=</button>
+  </div>
+</div>
+
+<script>
+  let expressionScreen = document.getElementById('expression');
+
+  function appendToExpression(char) {
+    expressionScreen.value = expressionScreen.value === '0' ? char : expressionScreen.value + char;
+  }
+
+  function clearExpression() {
+    expressionScreen.value = '0';
+  }
+
+  function calculate() {
+    const expression = expressionScreen.value;
+    fetch('/calculate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({expression: expression}),
+    })
+    .then(response => response.json())
+    .then(data => {
+      expressionScreen.value = data.result;
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      expressionScreen.value = 'Error';
+    });
+  }
+</script>
+
+</body>
+</html>
+

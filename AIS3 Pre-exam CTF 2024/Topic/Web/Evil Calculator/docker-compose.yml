@@ -1,0 +1,9 @@
+services:
+  evil_calc:
+    build: .
+    volumes:
+      - ./app:/app:ro
+      - ./flag:/flag:ro
+    ports: 
+      - "5001:5001"
+

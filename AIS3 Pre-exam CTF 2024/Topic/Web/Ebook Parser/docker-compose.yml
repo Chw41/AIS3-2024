@@ -1,0 +1,10 @@
+services:
+  ebook-parser:
+    build:
+      context: .
+    volumes:
+      - ./flag:/flag:ro
+    ports:
+      - "8888:8888"
+    restart: always
+    stop_signal: SIGINT

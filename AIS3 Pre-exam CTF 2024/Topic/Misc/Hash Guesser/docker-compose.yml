@@ -1,0 +1,12 @@
+services:
+  web:
+    build:
+      context: .
+    environment:
+      # - TURNSTILE_SITE_KEY=
+      # - TURNSTILE_SECRET_KEY=
+      - FLAG=flag{test}
+    ports:
+      - "7122:7122"
+    restart: always
+    stop_signal: SIGINT

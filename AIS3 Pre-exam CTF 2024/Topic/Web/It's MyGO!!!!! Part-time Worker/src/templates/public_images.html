@@ -1,0 +1,10 @@
+{% include 'base.html' %}
+<div id="content-title">公共圖庫</div>
+<div style="display: flex; justify-content: center;flex-wrap: wrap;">
+{% for img in images %}
+<div style="margin: 2%;">
+    <img width="200px" src="{{img}}"/>
+</div>
+{% endfor %}
+</div>
+{% include 'end.html' %}

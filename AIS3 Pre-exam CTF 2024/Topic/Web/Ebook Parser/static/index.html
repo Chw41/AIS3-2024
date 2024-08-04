@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/static/tocas.css">
+        <script src="/static/tocas.js"></script>
+        <link rel="stylesheet" href="/static/main.css">
+    </head>
+    <title>EBook Parser</title>
+    <body>
+        <form action="./parse" method="post" enctype="multipart/form-data" name="form" id="form">
+            <input type="file" name="ebook" id="upload" />
+        </form>
+        <div class="ts center aligned big header">
+            EBook Parser
+        </div>
+        <div class="ts container" id="main">
+            <div class="ts basic padded dashed clickable slate" id="dragzone" data-mode="selecting">
+                <button class="ts close button"></button>
+                <i class="upload symbol icon"></i>
+                <span class="header">Upload</span>
+                <span class="description">Drag file here to upload, or click here to select file.<br>Max upload size : 1.0 MiB</span>
+                <div class="action">
+                    <button class="ts primary button" id="submitbtn">Upload</button>
+                    <div class="ts progress" id="progressbar">
+                        <div class="bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="ts padded attached center aligned inverted segment">
+            <p>EBook Parser</p>
+        </footer>
+        <!-- snackbar -->
+        <div class="ts top right snackbar">
+            <div class="content"></div>
+        </div>
+
+        <script src="/static/axios.min.js"></script>
+        <script>
+            const sizeLimit = 1024 * 1024;
+        </script>
+        <script src="/static/upload.js"></script>
+    </body>
+</html>

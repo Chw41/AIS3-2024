@@ -1,0 +1,9 @@
+{% include 'base.html' %}
+<div id="content-title">上傳圖庫</div>
+<div>上傳包含圖片的ZIP檔(接受 jpg/png/gif)</div>
+<div>{{status}}</div>
+<form action="/upload" enctype="multipart/form-data" method="POST">
+    <input type="file" name="zipfile">
+    <input type="submit">
+  </form>
+{% include 'end.html' %}
