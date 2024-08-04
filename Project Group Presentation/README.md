@@ -1,5 +1,4 @@
-# AIS3 2024 A11
-# Group Discussion Shared Notes
+# AIS3 2024 Group Discussion Shared Notes (A11)
 
 [TOC]
 
